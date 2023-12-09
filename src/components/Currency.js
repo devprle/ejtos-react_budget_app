@@ -4,7 +4,10 @@ import '../currency.css'
 
 const Currency = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [chosenCurrency, setChosenCurrency] = useState('£')
     const {currency} = useContext(AppContext);
+    const {dispatch} = useContext(AppContext);
+
     //console.log('currency: ', currency)
     const handleCurrencyName = (symbol) => {
         switch (symbol) {
@@ -18,6 +21,15 @@ const Currency = () => {
                 return 'Ruppee'
         }
     }
+    const handleCurrencyChange = (symbol) => {
+        console.log('symbol:', symbol)
+        setChosenCurrency(symbol)
+        dispatch ({
+            type: 'CHG_CURRENCY', payload: symbol,
+        });
+        setDropdownOpen(false)
+    }
+
     const handleCurrencyDropdown = () => {
         setDropdownOpen(!dropdownOpen)
     }
@@ -26,10 +38,10 @@ const Currency = () => {
             Currency: ({currency} {handleCurrencyName(currency)})
         </div>
         {dropdownOpen ? <div className='currency-dropdown'>
-            <div className='currency-option'>$ Dollar</div>
-            <div className='currency-option'>£ Pound</div>
-            <div className='currency-option'>€ Euro</div>
-            <div className='currency-option'>₹ Ruppee</div>
+            <div className='currency-option' onClick={()=>handleCurrencyChange('$')}>$ Dollar</div>
+            <div className='currency-option' onClick={()=>handleCurrencyChange('£')}>£ Pound</div>
+            <div className='currency-option' onClick={()=>handleCurrencyChange('€')}>€ Euro</div>
+            <div className='currency-option' onClick={()=>handleCurrencyChange('₹')}>₹ Ruppee</div>
         </div> : ''}
     </div>);
 };

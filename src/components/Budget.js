@@ -5,9 +5,19 @@ const Budget = () => {
     const {currency} = useContext(AppContext);
 
     const {budget} = useContext(AppContext);
+    const {remaining} = useContext(AppContext);
     const [newBudget, setNewBudget] = useState(budget);
     const handleBudgetChange = (event) => {
-        setNewBudget(event.target.value);
+
+        if (event.target.value > 20000) {
+        } else {
+            alert('The value can not exceed 20000')
+            if (event.target.value < budget - remaining) {
+                alert('You can not reduce the budget value lower than the spending')
+            } else {
+                setNewBudget(event.target.value);
+            }
+        }
     }
     return (<div className='alert alert-secondary'>
         <span>Budget: {currency}</span>
